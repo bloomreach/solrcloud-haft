@@ -23,7 +23,7 @@ import java.io.IOException;
 
 /**
  * Generic SolrAction Class. Specific implemenations should override
- * the fetchResponse to do their operations
+ * the executeAction to do their operations.
  * @autho nitin
  * @since 2/19/14.
  */
@@ -32,7 +32,6 @@ public abstract class SolrFaultTolerantAction {
 
   protected OperationConfig config;
   protected ZkClient sourceZKClient;
-
 
   /**
    * Initialize the zk Config

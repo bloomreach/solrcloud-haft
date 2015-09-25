@@ -18,7 +18,6 @@ package com.bloomreach.bstore.highavailability.actions;
 import com.bloomreach.bstore.highavailability.utils.SolrInteractionUtils;
 import com.bloomreach.bstore.highavailability.zookeeper.ZkClient;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -54,12 +53,10 @@ public class CloneAliasesAction extends SolrFaultTolerantAction {
       String sourceCollectionName = sourceAliases.get(alias);
       String destinationCollectionName = collectionMapper.dest(sourceCollectionName);
 
-      if (destinationAliases.size() > 0) {
-        if (destinationAliases.containsKey(alias)) {
-          if (destinationAliases.get(alias).equals(destinationCollectionName)) {
-            logger.info("Alias is the same in source and destination cluster for  " + alias + ". Skipping Alias Creation. ");
-            continue;
-          }
+      if (destinationAliases.containsKey(alias)) {
+        if (destinationAliases.get(alias).equals(destinationCollectionName)) {
+          logger.info("Alias is the same in source and destination cluster for  " + alias + ". Skipping Alias Creation.");
+          continue;
         }
       }
 
@@ -76,7 +73,7 @@ public class CloneAliasesAction extends SolrFaultTolerantAction {
       SolrInteractionUtils.createAlias(destionationHost, alias, destinationCollectionName);
     }
 
-    Set<String> missingAliases = new HashSet<String>();
+    boolean missingAliases = false;
     //Only if anything has changed in the source zookeeper, do the verification
     if (dirty) {
       //Refresh Zookeeper view to verify if all aliases are good
@@ -88,11 +85,11 @@ public class CloneAliasesAction extends SolrFaultTolerantAction {
           logger.info("Alias " + alias + "exists on the destination cluster also...");
         } else {
           logger.error("Alias " + alias + "DOES NOT EXIST on the destination cluster. Please investigate.....");
-          missingAliases.add(alias);
+          missingAliases = true;
         }
       }
     }
 
-    return (missingAliases.size() == 0);
+    return missingAliases;
   }
 }
