@@ -55,11 +55,10 @@ public class CloneZkConfigsAction extends SolrFaultTolerantAction {
     String sourceZk = config.getZkHost();
     String destinationZk = config.getDestinationZkHost();
 
-    String path = CONFIG_PATH;
     ZkDataNode rootNode;
     //Traverse the data
     try {
-      rootNode = new ZookeeperDataTraverser(sourceZk, path).traverse();
+      rootNode = new ZookeeperDataTraverser(sourceZk, CONFIG_PATH).traverse();
     } catch (Exception e) {
       logger.info("Encountered Exception.." + ExceptionUtils.getFullStackTrace(e));
       throw new ZkDataTraversalException("Encountered Exception.." + ExceptionUtils.getFullStackTrace(e));

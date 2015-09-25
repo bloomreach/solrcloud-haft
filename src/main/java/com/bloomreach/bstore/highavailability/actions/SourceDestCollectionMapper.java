@@ -41,7 +41,6 @@ public class SourceDestCollectionMapper {
   private String defaultConfig;
   private ZkClusterData sourceZkClusterData;
 
-
   public SourceDestCollectionMapper(String collectionNamePatterns, String configNamePatterns, ZkClusterData sourceZkClusterData) throws CollectionPatternException {
     collectionRules = new ArrayList<String[]>();
     configRules = new ArrayList<String[]>();

@@ -120,7 +120,6 @@ public class CloneCollectionsAction extends SolrFaultTolerantAction {
    * @return
    */
   private Collection<String> findClonableCollectionSet(List<String> operationalCollections) {
-    boolean dirty = false;
     Collection<String> collectionNames;
     if (operationalCollections.get(0).equalsIgnoreCase("all")) {
 
@@ -128,24 +127,21 @@ public class CloneCollectionsAction extends SolrFaultTolerantAction {
       // Build all  collections need to be streamed to destination
       collectionNames = sourceZKClient.getZkClusterData().getCollections();
       collectionNames.remove("collection1");
+      boolean dirty = false;
       for (String collName : collectionNames) {
-        if (!StringUtils.isBlank(config.getStreamFilter()) || !StringUtils.isBlank(config.getExclusionPattern())) {
+        if (StringUtils.isNotBlank(config.getStreamFilter()) || StringUtils.isNotBlank(config.getExclusionPattern())) {
           dirty = true;
         }
         //Add all collections matching a certain pattern
-        if (!StringUtils.isBlank(config.getStreamFilter())) {
-          if (collName.contains(config.getStreamFilter())) {
-            logger.info("Adding " + collName + " since it matches  pattern " + config.getStreamFilter());
-            finalCollectionNames.add(collName);
-          }
+        if (StringUtils.isNotBlank(config.getStreamFilter()) && collName.contains(config.getStreamFilter())) {
+          logger.info("Adding " + collName + " since it matches  pattern " + config.getStreamFilter());
+          finalCollectionNames.add(collName);
         }
 
         //Remove all collections matching Exclusion Pattern
-        if (!StringUtils.isBlank(config.getExclusionPattern())) {
-          if (collName.contains(config.getExclusionPattern())) {
-            logger.info("Skipping " + collName + " since it matches exclusion pattern " + config.getExclusionPattern());
-            finalCollectionNames.remove(collName);
-          }
+        if (StringUtils.isNotBlank(config.getExclusionPattern()) && collName.contains(config.getExclusionPattern())) {
+          logger.info("Skipping " + collName + " since it matches exclusion pattern " + config.getExclusionPattern());
+          finalCollectionNames.remove(collName);
         }
 
       }
