@@ -53,5 +53,5 @@ public abstract class SolrFaultTolerantAction {
    *
    * @throws Exception
    */
-  public abstract boolean executeAction() throws Exception;
+  public abstract void executeAction() throws Exception;
 }

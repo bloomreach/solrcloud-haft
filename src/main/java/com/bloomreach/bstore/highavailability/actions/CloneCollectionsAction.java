@@ -56,7 +56,7 @@ public class CloneCollectionsAction extends SolrFaultTolerantAction {
   }
 
   @Override
-  public boolean executeAction() throws Exception {
+  public void executeAction() throws Exception {
     List<String> operationalCollections = config.getCollections();
 
     if (operationalCollections.size() == 0) {
@@ -88,7 +88,6 @@ public class CloneCollectionsAction extends SolrFaultTolerantAction {
 
     ReplicationManger replicationManger = new ReplicationManger(replicatorConfig);
     replicationManger.replicateCollections();
-    boolean collectionsStreamed = replicationManger.monitorReplicationRequests();
 
     List<ReplicationDiagnostics> allDiagnostics = replicationManger.getAllDiagnostics();
 
@@ -103,9 +102,6 @@ public class CloneCollectionsAction extends SolrFaultTolerantAction {
                 "-> " + diagnostic.getTimeElapsed() + ". Percentage ->" + diagnostic.getPercentageComplete());
       }
     }
-
-    return collectionsStreamed && (allDiagnostics.size() == 0);
-
   }
 
   /**

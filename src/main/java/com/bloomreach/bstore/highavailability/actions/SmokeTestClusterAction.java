@@ -41,7 +41,7 @@ public class SmokeTestClusterAction extends SolrFaultTolerantAction {
   }
 
   @Override
-  public boolean executeAction() throws Exception {
+  public void executeAction() throws Exception {
 
     LinkedHashMap<String, String> destionationAliases = destinationZKClient.getZkClusterData().getAliases();
     String destinationSolrHost = destinationZKClient.getZkClusterData().getSolrHosts().toArray()[0].toString();
@@ -83,7 +83,5 @@ public class SmokeTestClusterAction extends SolrFaultTolerantAction {
     if (isClusterHealthy) {
       logger.info("Cluster is healthy...");
     }
-
-    return true;
   }
 }

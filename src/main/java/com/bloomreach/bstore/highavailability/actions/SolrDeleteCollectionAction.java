@@ -31,21 +31,17 @@ public class SolrDeleteCollectionAction extends SolrFaultTolerantAction {
   }
 
   @Override
-  public boolean executeAction() throws Exception {
-    String solrHost = (String) sourceZKClient.getZkClusterData().getSolrHosts().toArray()[0];
-
-    List<String> collections;
-
+  public void executeAction() throws Exception {
     if (config.getCollections().size() == 0) {
       logger.info("No collections passed.. Returning");
-      return true;
-    } else {
-      collections = config.getCollections();
+      return;
     }
+    String solrHost = (String) sourceZKClient.getZkClusterData().getSolrHosts().toArray()[0];
+
+    List<String> collections = config.getCollections();
     String logMessage = "Deleting collections %s on %s";
     logger.info(String.format(logMessage, Arrays.toString(collections.toArray()), solrHost));
 
-    boolean succesfulDelete = true;
     //Delete the collection
     for (String collectionName : collections) {
       if (collectionName.equals("collection1")) {
@@ -57,10 +53,7 @@ public class SolrDeleteCollectionAction extends SolrFaultTolerantAction {
         SolrInteractionUtils.deleteCollection(solrHost, collectionName);
       } catch (Exception e) {
         logger.info("Delete collection failed for " + collectionName);
-        succesfulDelete = false;
       }
     }
-
-    return succesfulDelete;
   }
 }
