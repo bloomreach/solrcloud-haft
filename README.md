@@ -6,13 +6,15 @@ that interacts with Zookeeper or SolrCloud and providing a high availability fea
 
 A few examples of FT Actions are
 
-  - Cloning Clusters
+
+  - Cloning SolrCloud Clusters & Collections
+  - Backup SolrCloud Index
   - Backing up Zookeeper data
   - Adding a Replica
   - Replacing a Dead Node
   - Adding nodes on the fly
 
-For the initial release, we are open sourcing SolrCloud Collection Backup and Zk Config Replication Actions.
+For the initial release, we are open sourcing SolrCloud Collection Cloning, Backup and Zk Config Replication Actions.
 HAFT has been tested with SolrCloud 4.6.1. We are still working on SolrCloud 5.0 Compatibility
 
 
