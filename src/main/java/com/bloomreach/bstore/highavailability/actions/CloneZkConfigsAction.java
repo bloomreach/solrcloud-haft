@@ -51,7 +51,7 @@ public class CloneZkConfigsAction extends SolrFaultTolerantAction {
   }
 
   @Override
-  public boolean executeAction() throws Exception {
+  public void executeAction() throws Exception {
     String sourceZk = config.getZkHost();
     String destinationZk = config.getDestinationZkHost();
 
@@ -67,6 +67,5 @@ public class CloneZkConfigsAction extends SolrFaultTolerantAction {
     //Replicate the data
     ZookeeperDataReplicator replicator = new ZookeeperDataReplicator(destinationZk, CONFIG_PATH, rootNode);
     replicator.replicate();
-    return true;
   }
 }
