@@ -141,8 +141,7 @@ HAFT has been tested with SolrCloud 4.6.1. We are still working on SolrCloud 5.0
 
 
 # Contributors
- - Nitin Sharma (nitin.sharma@bloomreach.com) - Main developer/Project owner
- - Li Ding (li.ding@bloomreach.com)
+ - Nitin Sharma (nitinssn@gmail.com)
 
 
 # License
